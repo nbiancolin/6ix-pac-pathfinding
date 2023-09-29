@@ -58,9 +58,9 @@ def get_next_coordinate(grid, location):
     
     #apply logic
    
-    if elem.count(o) >= 1: 
+    if tiles.count(o) >= 1: 
         #go to that point
-        return moves[elem.index(o)]
+        return moves[tiles.index(o)]
     
     #if there are no o's return the index with an e
-    return moves[elem.index(e)]
+    return moves[tiles.index(e)]
