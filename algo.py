@@ -1,6 +1,7 @@
 # You can modify this file to implement your own algorithm
 
 from constants import *
+import random as rnd
 
 """
 You can use the following values from constants.py to check for the type of cell in the grid:
@@ -24,5 +25,42 @@ def get_next_coordinate(grid, location):
         - If the next coordinate is valid, return the next coordinate in the form (x, y) or [x,y].
         - If the next coordinate is invalid, return None.
     """
+
+    '''My Pac-Man logic:
+    Looking at the game board this is not a typical pac man map, nor will there be ghosts running around to chase you (for now), so for now its just about finding the most efficient path.
+
+    For now, Im going to say screw efficienct (although if I had more than ~5 hours to work on this, I'd consider it), and just find a path that works.
+    So, using that old thing someone told me once in grade 3:
+    "If you're in a maze, put your hand on the right wall and follow it until you get out"
+
+    Lets see if that works lmao.
+
+    So essentially, in code, this means that we check the surrounding cells:
+        if there is only one valid move (e, o, or O), we take it
+        if there are multiple valid moves, take the O or O if there is one, otherwise take the e
+        there should be no invalid moves, since behind is always an option, which will be e.
+
+    '''
+    #current loc given by the tuple location
+
+    curPos = location #its not personal, I think location is too vague and don't like typing it out
+
+    oldMoves = [[curPos[0], curPos[1]+1],  #up (0)
+             [curPos[0], curPos[1]-1],  #down (1)
+             [curPos[0]+1, curPos[1]],  #right (2)
+             [curPos[0]-1, curPos[1]]]  #left (3)
     
-    return location
+    moves = sorted(oldMoves, key = lambda x: rnd.random()) #randomizes (hopefully) the list of moves, that way
+
+    tiles = [] #gets values at move
+    for elem in moves:
+        tiles.append(grid[elem[0]][elem[1]]) #maybe make lambda function? idk if thats faster I just know its a thing
+    
+    #apply logic
+   
+    if elem.count(o) >= 1: 
+        #go to that point
+        return moves[elem.index(o)]
+    
+    #if there are no o's return the index with an e
+    return moves[elem.index(e)]
