@@ -10,7 +10,11 @@ o = 2 -> Pellet (Small Dot)
 e = 3 -> Empty
 """
 
+global prevDir
+#prevDir = -1 #if there 
+
 def get_next_coordinate(grid, location):
+    global prevDir
 
     """
     Calculate the next coordinate for 6ix-pac to move to.
@@ -45,12 +49,13 @@ def get_next_coordinate(grid, location):
 
     curPos = location #its not personal, I think location is too vague and don't like typing it out
 
-    oldMoves = [[curPos[0], curPos[1]+1],  #up (0)
+    moves = [[curPos[0], curPos[1]+1],  #up (0)
              [curPos[0], curPos[1]-1],  #down (1)
              [curPos[0]+1, curPos[1]],  #right (2)
              [curPos[0]-1, curPos[1]]]  #left (3)
     
-    moves = sorted(oldMoves, key = lambda x: rnd.random()) #randomizes (hopefully) the list of moves, that way
+    'Removing this bc it caused a lot of back and forth stuff'
+    #moves = sorted(oldMoves, key = lambda x: rnd.random()) #randomizes (hopefully) the list of moves, that way
 
     tiles = [] #gets values at move
     for elem in moves:
@@ -58,9 +63,27 @@ def get_next_coordinate(grid, location):
     
     #apply logic
    
+    
+
     if tiles.count(o) >= 1: 
         #go to that point
-        return moves[tiles.index(o)]
+        prevDir = tiles.index(o)
+        return moves[prevDir]
     
-    #if there are no o's return the index with an e
-    return moves[tiles.index(e)]
+
+    if tiles[prevDir] == I:
+        n = len(moves)
+        for i in range(n):
+            j = rnd.randint(0, n-1)
+            elem = moves.pop(j)
+            moves.append(elem)
+            elem = tiles.pop(j)
+            tiles.append(elem)
+
+        #temp = zip(moves, tiles)
+        #rnd.shuffle(temp)
+        #moves, tiles = zip(*temp)
+        prevDir = tiles.index(e)
+        return moves[prevDir]
+
+    return moves[prevDir]
