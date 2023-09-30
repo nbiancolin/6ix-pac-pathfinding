@@ -10,8 +10,8 @@ o = 2 -> Pellet (Small Dot)
 e = 3 -> Empty
 """
 
-global prevDir
-#prevDir = -1 #if there 
+global prevDir #short for Previous Direction, 
+prevDir = -1
 
 def get_next_coordinate(grid, location):
     global prevDir
@@ -63,7 +63,9 @@ def get_next_coordinate(grid, location):
     
     #apply logic
    
-    
+    if tiles[prevDir] == o:
+        return moves[prevDir]  
+
 
     if tiles.count(o) >= 1: 
         #go to that point
@@ -71,19 +73,30 @@ def get_next_coordinate(grid, location):
         return moves[prevDir]
     
 
-    if tiles[prevDir] == I:
-        n = len(moves)
-        for i in range(n):
-            j = rnd.randint(0, n-1)
-            elem = moves.pop(j)
-            moves.append(elem)
-            elem = tiles.pop(j)
-            tiles.append(elem)
-
-        #temp = zip(moves, tiles)
-        #rnd.shuffle(temp)
-        #moves, tiles = zip(*temp)
-        prevDir = tiles.index(e)
+    if tiles[prevDir] != I:
         return moves[prevDir]
+ 
+    if tiles[prevDir] == I:  #if in its current direction
+        #DO NOT USE INVERSE OF prevDir
+        if (prevDir + 1) % 2 == 0: #removes the inverse so the pacbot doesnt get stuck going back and forth (like it was when writing this)
+            #moves.pop(prevDir -1)
+            tiles[prevDir-1] = 69
+            counter+= 1
+
+        else:
+            #moves.pop(prevDir +1)
+            tiles[prevDir+1] = 69
+            counter+= 1
+
+        for i in range(3):
+            if tiles[i] == I:
+                #moves[i] = 69
+                tiles[i] = 69
+        print("========") #I hate when code doesn't work
+        print(tiles)
+        print(moves)
+        print("========")
+        prevDir = tiles.index(e)
+        return moves[tiles.index(e)]
 
     return moves[prevDir]
