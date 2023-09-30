@@ -30,22 +30,8 @@ def get_next_coordinate(grid, location):
         - If the next coordinate is invalid, return None.
     """
 
-    '''My Pac-Man logic:
-    Looking at the game board this is not a typical pac man map, nor will there be ghosts running around to chase you (for now), so for now its just about finding the most efficient path.
-
-    For now, Im going to say screw efficienct (although if I had more than ~5 hours to work on this, I'd consider it), and just find a path that works.
-    So, using that old thing someone told me once in grade 3:
-    "If you're in a maze, put your hand on the right wall and follow it until you get out"
-
-    Lets see if that works lmao.
-
-    So essentially, in code, this means that we check the surrounding cells:
-        if there is only one valid move (e, o, or O), we take it
-        if there are multiple valid moves, take the O or O if there is one, otherwise take the e
-        there should be no invalid moves, since behind is always an option, which will be e.
-
-    '''
-    #current loc given by the tuple location
+   
+    #this code might not work idk. please let me on your team I would very much like to be a part of it, I cannot figure out for the life of me why it keeps bouncing sometimes
 
     curPos = location #its not personal, I think location is too vague and don't like typing it out
 
@@ -63,21 +49,21 @@ def get_next_coordinate(grid, location):
     
     #apply logic
    
-    if tiles[prevDir] == o:
+    if tiles[prevDir] == o: #if the pacbot continues in its current direction, it will eat a pellet
         return moves[prevDir]  
 
 
-    if tiles.count(o) >= 1: 
+    if tiles.count(o) >= 1: #if there are more than one pellet, pick one based on the order above (could be random but idc)
         #go to that point
         prevDir = tiles.index(o)
         return moves[prevDir]
     
 
-    if tiles[prevDir] != I:
-        return moves[prevDir]
+    if tiles[prevDir] != I: #if there is no wall in the same direction, continue in prev direction
+        return moves[prevDir]  
  
     if tiles[prevDir] == I:     #if in its current direction
-                                #DO NOT USE INVERSE OF prevDir
+                                #DO NOT USE INVERSE OF prevDir (then it gets stuck in an infinte loop)
         if (prevDir + 1) % 2 == 0: #removes the inverse so the pacbot doesnt get stuck going back and forth (like it was when writing this)
             #moves.pop(prevDir -1)
             tiles[prevDir-1] = 69
@@ -90,15 +76,19 @@ def get_next_coordinate(grid, location):
             if tiles[i] == I:
                 #moves[i] = 69
                 tiles[i] = 69
+
         print("========") #I hate when code doesn't work
         print(tiles)
         print(moves)
         print("========")
-        if tiles.count(e) == 1:
+
+        #if there's only one open space, go there
+        if tiles.count(e) == 1: 
             prevDir = tiles.index(e)
             return moves[prevDir]
         #shuffle list so it doesnt get stuck in an infinite loop
-        n = 4 #length of array will always be 4
+        
+        n = 3 #length of array will always be 4 (try 3? idk)
         for i in range(n):
             j = rnd.randint(0, n-1)
             elem = moves.pop(j)
@@ -108,3 +98,6 @@ def get_next_coordinate(grid, location):
         prevDir = tiles.index(e)
         return moves[prevDir]
     #return moves[prevDir]
+
+
+    #advanced engineering mathematics is the most fun course of 2nd year ece change my mind :p (pls push this) 
