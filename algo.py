@@ -31,7 +31,10 @@ def get_next_coordinate(grid, location):
     """
 
    
-    #this code might not work idk. please let me on your team I would very much like to be a part of it, I cannot figure out for the life of me why it keeps bouncing sometimes
+    #IT WORKS IT JUST TAKES A WHILE
+    # When I ran it, it finished in ~600 seconds 
+    # please let me on your team I would very much like to be a part of it, 
+    # I cannot figure out for the life of me why it keeps bouncing sometimes
 
     curPos = location #its not personal, I think location is too vague and don't like typing it out
 
