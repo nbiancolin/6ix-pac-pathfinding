@@ -76,17 +76,15 @@ def get_next_coordinate(grid, location):
     if tiles[prevDir] != I:
         return moves[prevDir]
  
-    if tiles[prevDir] == I:  #if in its current direction
-        #DO NOT USE INVERSE OF prevDir
+    if tiles[prevDir] == I:     #if in its current direction
+                                #DO NOT USE INVERSE OF prevDir
         if (prevDir + 1) % 2 == 0: #removes the inverse so the pacbot doesnt get stuck going back and forth (like it was when writing this)
             #moves.pop(prevDir -1)
             tiles[prevDir-1] = 69
-            counter+= 1
 
         else:
             #moves.pop(prevDir +1)
-            tiles[prevDir+1] = 69
-            counter+= 1
+            tiles[prevDir+1] = 69 
 
         for i in range(3):
             if tiles[i] == I:
@@ -96,7 +94,17 @@ def get_next_coordinate(grid, location):
         print(tiles)
         print(moves)
         print("========")
+        if tiles.count(e) == 1:
+            prevDir = tiles.index(e)
+            return moves[prevDir]
+        #shuffle list so it doesnt get stuck in an infinite loop
+        n = 4 #length of array will always be 4
+        for i in range(n):
+            j = rnd.randint(0, n-1)
+            elem = moves.pop(j)
+            moves.append(elem)
+            elem = tiles.pop(j)
+            tiles.append(elem)
         prevDir = tiles.index(e)
-        return moves[tiles.index(e)]
-
-    return moves[prevDir]
+        return moves[prevDir]
+    #return moves[prevDir]
